@@ -8,6 +8,10 @@ typedef struct Palette {
   GColor hours;
 } Palette;
 
+Calendar s_cal;
+/* The calendar is fake for now, since I have no clue how to slurp events from Google.
+   You have an appointment from 2 to 3.30 and one from 6 till 7. */
+
 GRect s_screen;
 
 static Window *s_window;
@@ -19,6 +23,15 @@ static uint8_t s_minute;
 
 // Update the watchface display
 static void update_display(Layer *layer, GContext *ctx) {
+  // Add fake events to calendar
+  s_cal[0].start = 2 * 60;
+  s_cal[0].end   = 3 * 60 + 30;
+  s_cal[1].start = 6 * 60;
+  s_cal[1].end   = 7 * 60;
+  s_cal[2].start = 0;
+  s_cal[2].end   = 0;
+  
+  // Draw clock
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS);
   graphics_context_set_stroke_color(ctx, s_palette->minutes);
   draw_minutes(ctx, s_minute);
@@ -27,7 +40,7 @@ static void update_display(Layer *layer, GContext *ctx) {
   draw_hours(ctx, s_hour % 12, s_minute);
   
   graphics_context_set_stroke_color(ctx, s_palette->appointments);
-  draw_appointments(ctx);
+  draw_appointments(ctx, s_cal);
 }
 
 // Update the current time values for the watchface
