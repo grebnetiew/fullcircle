@@ -73,7 +73,7 @@ static void window_unload(Window *window) {
   layer_destroy(s_layer);
 }
 
-static void init(void) {
+static void init() {
   s_window = window_create();
 
   window_set_window_handlers(s_window, (WindowHandlers) {
@@ -86,14 +86,16 @@ static void init(void) {
   time_t start = time(NULL);
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   update_time(localtime(&start));
+  calendar_init();
 }
 
-static void deinit(void) {
+static void deinit() {
+  calendar_deinit();
   tick_timer_service_unsubscribe();
   window_destroy(s_window);
 }
 
-int main(void) {
+int main() {
   init();
   app_event_loop();
   deinit();
