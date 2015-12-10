@@ -1,25 +1,14 @@
 #include "appointment.h"
 
 #define CAL_CURRENT_VER 1
-#define CAL_BUFFER_SIZE 128
-// That's 1 + 11 tuples x (7+4) bytes per tuple, and 6 extra for.. alignment
-#define CAL_VER_KEY 0
-#define CAL_CURRENT_VER 1
-static inline uint8_t cal_start_key_from_idx(uint8_t idx) {
-  return 2 * idx + 1;
-}
-static inline uint8_t cal_end_key_from_idx(uint8_t idx) {
-  return 2 * idx + 2;
-}
-static inline uint8_t cal_start_idx_from_key(uint8_t key) {
-  return (key - 1) / 2;
-}
-static inline uint8_t cal_end_idx_from_key(uint8_t key) {
-  return (key - 2) / 2;
-}
-static inline bool cal_is_start_key(uint8_t key) {
-  return key % 2 == 1;
-}
+#define CAL_BUFFER_SIZE 64
+// Thats 1 + 11 (version tuple) + 4 (bytes) x 10 (appt) + 7 (tuple hdr) = 59. And some slack.
+#define DATA_LENGTH 40
+
+enum DataKeys {
+  CAL_VER_KEY = 0,
+  CAL_DATA_KEY = 1,
+};
 
 static AppSync s_sync;
 static uint8_t s_sync_buffer[CAL_BUFFER_SIZE];
@@ -29,13 +18,13 @@ extern Layer *s_layer;
 
 // We update the internal calendar here if the 
 static void sync_changed_handler(const uint32_t key, const Tuple *new_tuple, const Tuple *old_tuple, void *context) {
-  if (key == 0) { // Though this really shouldn't happen
+  if (key != 1 || new_tuple->length != DATA_LENGTH) { 
     return;
   }
-  if (cal_is_start_key(key)) {
-    s_cal[cal_start_idx_from_key(key)].start = new_tuple->value->uint32;
-  } else {
-    s_cal[cal_end_idx_from_key(key)].end = new_tuple->value->uint32;
+  // fill calendar with new data
+  for (int i = 0; i != 10; ++i) {
+    s_cal[i].start = new_tuple->value->data[4*i]     * 60 + new_tuple->value->data[4*i + 1];
+    s_cal[i].end   = new_tuple->value->data[4*i + 2] * 60 + new_tuple->value->data[4*i + 3];
   }
   layer_mark_dirty(s_layer);
 }
@@ -51,10 +40,14 @@ void calendar_init() {
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
   // Setup initial values
+  uint8_t zeros[DATA_LENGTH];
+  for (int i = 0; i != DATA_LENGTH; ++i) {
+    zeros[i] = 0;
+  }
+  
   Tuplet initial_values[] = {
     TupletInteger(CAL_VER_KEY, (int32_t) CAL_CURRENT_VER),
-    TupletInteger(cal_start_key_from_idx(0), (int32_t)0),
-    TupletInteger(cal_end_key_from_idx(0),   (int32_t)0),
+    TupletBytes  (CAL_DATA_KEY, zeros, DATA_LENGTH),
   };
 
   // Begin using AppSync
