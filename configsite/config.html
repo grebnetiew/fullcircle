@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+				<head>
+								<meta charset="utf-8" />
+								<title>It works!</title>
+
+								<script src="gcal.js" />
+								<script src="https://apis.google.com/js/client.js?onload=checkAuth" />
+
+				</head>
+				<body>
+								<p> It works! Now to add stuff. </p>
+								<p> <a href="pebblejs://close#pumpkin">
+												Click to close. </a> </p>
+												
+								<div id="authorize-div" style="display: none">
+                  <span>Authorize access to Google Calendar API</span>
+                  <!--Button for the user to click to initiate auth sequence -->
+                  <button id="authorize-button" onclick="handleAuthClick(event)">
+                    Authorize
+                  </button>
+                </div>
+                <pre id="output"></pre>
+
+				</body>
+</html>
