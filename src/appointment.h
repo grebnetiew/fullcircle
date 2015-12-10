@@ -3,8 +3,8 @@
 #define CALENDAR_LENGTH 10
 
 typedef struct Appointment {
-  int32_t start; // in minutes after 12h
-  int32_t end;
+  uint32_t start; // in minutes after 12h
+  uint32_t end;
 } Appointment;
 
 typedef Appointment Calendar[CALENDAR_LENGTH];

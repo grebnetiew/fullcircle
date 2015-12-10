@@ -15,7 +15,7 @@ Calendar s_cal;
 GRect s_screen;
 
 static Window *s_window;
-static Layer *s_layer;
+Layer *s_layer;
 static Palette *s_palette;
 
 static uint8_t s_hour;

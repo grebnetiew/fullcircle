@@ -3,15 +3,15 @@
 
 extern GRect s_screen;
 
-int32_t angle_from_minutes(uint8_t min) {
+uint32_t angle_from_minutes(uuint8_t min) {
   return TRIG_MAX_ANGLE * min / 60;
 }
 
-int32_t angle_from_hours(int32_t min) {
+uint32_t angle_from_hours(uint32_t min) {
   return TRIG_MAX_ANGLE * min / (12 * 60);
 }
 
-void draw_hand(GContext *ctx, int32_t angle, uint8_t length) {
+void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
   // Calculate the endpoints of the lines
   GPoint center = grect_center_point(&s_screen);;
   GPoint hand = GPoint(
