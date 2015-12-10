@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-				<head>
-								<meta charset="utf-8" />
-								<title>It works!</title>
+	<head>
+		<meta charset="utf-8" />
+		<title>It works!</title>
 
-								<link rel='stylesheet' type='text/css' href='css/slate.css'>
-								<script src="js/gcal.js"> </script>
-								<script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script>
-								<script src='js/slate.js'> </script>
-								
-								<style>
-							  .title {
-							    padding: 15px 10px;
-							    text-transform: uppercase;
-							    font-family: 'PT Sans', sans-serif;
-							    font-size: 1.2em;
-							    font-weight: 500;
-							    color: #888888;
-							    text-align: center;
-							  }
-							  </style>
-				</head>
-				<body>
-					<h1 class='title'>FullCircle configuration</h1>
-					
-						<div class='item-container'>
-				      <div class='item-container-header'>Your calendar</div>
-				      	<div id="authorize-div" style="display: none">
-					      	<div class='item-container-content'>
-					        	<label class='item'>
-					          	Google Calendar
-					          	<input type="button" id="authorize-button" class="item-button item-input-button" value="Authorize" onclick="handleAuthClick(event)">
-					        	</label>
-					      	</div>
-					      	<div class='item-container-footer'>
-					        	To be able to display your appointments, FullCircle needs read access to your calendar.
-					      	</div>
-			    			</div> <!-- Authorize-div -->
-			    			<pre id="output"></pre>
-				    	</div>
-				    </div>
-				    
-						<p> <a href="pebblejs://close#pumpkin">
-							Click to close. </a> </p>
+		<link rel='stylesheet' type='text/css' href='css/slate.css'>
+		<script src="js/gcal.js"> </script>
+		<script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script>
+		<script src='js/slate.js'> </script>
 
-				</body>
+		<style>
+.title {
+	padding: 15px 10px;
+	text-transform: uppercase;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 1.2em;
+	font-weight: 500;
+	color: #888888;
+	text-align: center;
+}
+		</style>
+	</head>
+	<body>
+		<h1 class='title'>FullCircle configuration</h1>
+
+		<div class='item-container'>
+			<div class='item-container-header'>Your calendar</div>
+			<div id="authorize-div" style="display: none">
+				<div class='item-container-content'>
+					<label class='item'>
+						Google Calendar
+						<input type="button" id="authorize-button" class="item-button item-input-button" value="Authorize" onclick="handleAuthClick(event)">
+					</label>
+				</div>
+				<div class='item-container-footer'>
+					To be able to display your appointments, FullCircle needs read access to your calendar.
+				</div>
+			</div> <!-- Authorize-div -->
+			<pre id="output"></pre>
+		</div>
+		</div>
+
+		<p> <a href="pebblejs://close#pumpkin">
+			Click to close. </a> </p>
+
+	</body>
 </html>
