@@ -13,7 +13,7 @@ Pebble.addEventListener('ready', function(e) {
 function retrieveAppointments() {
   var apiClientID = '1337';
   var apiClientSecret = 'LOL';
-  var query = '{ 
+  var query = '{' +
     '"timeMin": datetime, ' +
     '"timeMax": datetime, ' +
     '"items": [ ' + 
