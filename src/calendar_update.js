@@ -26,7 +26,7 @@ function retrieveAppointments() {
   var apiKey = 'AIzaSyDaa5bCvVpTkWOwpdMu_3mwDMF4x92f240';
   var calendar = "eweitenberg@gmail.com";
   var timeMin = new Date();
-  var timeMax = timeMin;
+  var timeMax = new Date(timeMin);
   timeMax.setHours(timeMax.getHours() + 12);
   var query = {
     "timeMin": timeMin.toISOString(),
@@ -36,12 +36,16 @@ function retrieveAppointments() {
     ]
   };
   
+  //console.log("Asking for " + JSON.stringify(query));
+  
   var req = new XMLHttpRequest();
   req.open('POST', "https://www.googleapis.com/calendar/v3/freeBusy?key=" + apiKey, false);
   req.setRequestHeader('Content-Type', 'application/json');
   req.send(JSON.stringify(query));
   
   var response = JSON.parse(req.responseText);
+  
+  //console.log("Answer was " + req.responseText);
   
   if (Object.keys(response)[0] == "error") {
     // An error occurred, or the calendar is simply empty.
@@ -60,11 +64,11 @@ function retrieveAppointments() {
   }
   
   var newAppointments = zeros();
-  for(var i = 0; i != 10; ++i) {
-    newAppointments[4*i + 0] = Date.parse(freebusy[i].start).getHours();
-    newAppointments[4*i + 1] = Date.parse(freebusy[i].start).getMinutes();
-    newAppointments[4*i + 2] = Date.parse(freebusy[i].end).getHours();
-    newAppointments[4*i + 3] = Date.parse(freebusy[i].end).getMinutes();
+  for(var i = 0; i != Math.min(10, freebusy.length); ++i) {
+    newAppointments[4*i + 0] = (new Date(freebusy[i].start)).getHours();
+    newAppointments[4*i + 1] = (new Date(freebusy[i].start)).getMinutes();
+    newAppointments[4*i + 2] = (new Date(freebusy[i].end)).getHours();
+    newAppointments[4*i + 3] = (new Date(freebusy[i].end)).getMinutes();
   }
 }
 
