@@ -18,6 +18,7 @@ extern Layer *s_layer;
 
 // We update the internal calendar here if the 
 static void sync_changed_handler(const uint32_t key, const Tuple *new_tuple, const Tuple *old_tuple, void *context) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received with key %d\n", (int) key);
   if (key != 1 || new_tuple->length != DATA_LENGTH) { 
     return;
   }

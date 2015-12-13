@@ -16,15 +16,7 @@ static uint8_t s_hour;
 static uint8_t s_minute;
 
 // Update the watchface display
-static void update_display(Layer *layer, GContext *ctx) {
-  // Add fake events to calendar
-  s_cal[0].start = 2 * 60;
-  s_cal[0].end   = 3 * 60 + 30;
-  s_cal[1].start = 6 * 60;
-  s_cal[1].end   = 7 * 60;
-  s_cal[2].start = 0;
-  s_cal[2].end   = 0;
-  
+static void update_display(Layer *layer, GContext *ctx) {  
   // Draw clock
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS);
   graphics_context_set_stroke_color(ctx, s_palette->minutes);

@@ -15,7 +15,9 @@ var appointments = zeros();
 
 Pebble.addEventListener('ready', function(e) {
   console.log('JavaScript app ready and running!');
-  setTimeout(calendarUpdate, 2000);
+  appointments = retrieveAppointments();
+  sendAppointments();
+  setTimeout(calendarUpdate, 900000);
 });
 
 function retrieveAppointments() {
@@ -69,7 +71,7 @@ function retrieveAppointments() {
 function sendAppointments() { 
   Pebble.sendAppMessage( { '1': appointments },
     function(e) {
-      console.log('Successfully delivered message with transactionId=' + e.data.transactionId);
+      console.log('Successfully delivered message ' + appointments.toString() + ' with transactionId=' + e.data.transactionId);
     },
     function(e) {
       console.log('Unable to deliver message with transactionId=' + e.data.transactionId  + ' Error is: ' + e.error.message);
@@ -79,7 +81,7 @@ function sendAppointments() {
 
 function calendarUpdate() {
   var newAppointments = retrieveAppointments();
-  if (newAppointments != appointments) {
+  if (newAppointments.toString() != appointments.toString()) {
     appointments = newAppointments;
     sendAppointments();
   }
