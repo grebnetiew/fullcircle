@@ -1,12 +1,6 @@
 #include <pebble.h>
 #include "ui.h"
-
-// Define struct to store colors for each time unit
-typedef struct Palette {
-  GColor appointments;
-  GColor minutes;
-  GColor hours;
-} Palette;
+#include "storage.h"
 
 Calendar s_cal;
 /* The calendar is fake for now, since I have no clue how to slurp events from Google.
@@ -16,7 +10,7 @@ GRect s_screen;
 
 static Window *s_window;
 Layer *s_layer;
-static Palette *s_palette;
+Palette *s_palette;
 
 static uint8_t s_hour;
 static uint8_t s_minute;
@@ -56,11 +50,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 
 static void window_load(Window *window) {
   s_palette = malloc(sizeof(Palette));
-  *s_palette = (Palette) {
-      COLOR_FALLBACK(GColorOrange, GColorWhite),
-      COLOR_FALLBACK(GColorTiffanyBlue, GColorWhite),
-      COLOR_FALLBACK(GColorRed, GColorWhite)
-  };
+  load_palette(s_palette);
 
   s_layer = layer_create(layer_get_bounds(window_get_root_layer(s_window)));
   s_screen = grect_inset(layer_get_bounds(s_layer), GEdgeInsets(SCREEN_BORDER));
@@ -69,6 +59,7 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
+  save_palette(s_palette);
   free(s_palette);
   layer_destroy(s_layer);
 }
