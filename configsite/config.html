@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>It works!</title>
+		<title>FullCircle configuration</title>
 
 		<link rel='stylesheet' type='text/css' href='css/slate.css'>
 		<script src='js/slate.js'> </script>
@@ -10,7 +10,8 @@
 		<!-- script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script -->
 		
 		<script language="javascript">
-		function return() {
+		var submitButton = document.getElementById('submit-button');
+		submitButton.addEventListener('click', function() {
 			var settings = {
 				"calendar": document.getElementById("in-cal").value,
 				"color-hour": document.getElementById("in-hour").value,
@@ -23,7 +24,7 @@
 			// Set the return URL depending on the runtime environment
 			var return_to = getQueryParam('return_to', 'pebblejs://close#');
 			document.location = return_to + encodeURIComponent(JSON.stringify(settings));
-		}
+		});
 		</script>
 
 		<style>
@@ -98,7 +99,7 @@
 
 		<div class="item-container">
 			<div class="button-container">
-			<input type="button" class="item-button" onclick="return()" value="SAVE">
+			<input type="button" class="item-button" id="submit-button" value="SAVE">
 			</div>
 		</div>
 
