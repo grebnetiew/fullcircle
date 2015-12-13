@@ -3,11 +3,11 @@
 
 extern GRect s_screen;
 
-uint32_t angle_from_minutes(uuint8_t min) {
+inline uint32_t angle_from_minutes(uint8_t min) {
   return TRIG_MAX_ANGLE * min / 60;
 }
 
-uint32_t angle_from_hours(uint32_t min) {
+inline uint32_t angle_from_hours(uint32_t min) {
   return TRIG_MAX_ANGLE * min / (12 * 60);
 }
 
