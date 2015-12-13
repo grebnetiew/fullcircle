@@ -22,7 +22,6 @@ void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
     center.y - length * cos_lookup(angle) / (TRIG_MAX_RATIO * 9));
   
   // Draw hands
-  graphics_context_set_antialiased(ctx, true);
   graphics_draw_line(ctx, wrist, hand);
   graphics_draw_circle(ctx, center, length / 10);
 }

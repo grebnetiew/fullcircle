@@ -7,6 +7,7 @@ typedef struct Palette {
   GColor minutes;
   GColor hours;
   GColor background;
+  GColor circle;
 } Palette;
 
 enum PersistKeys {
@@ -14,6 +15,7 @@ enum PersistKeys {
   MINUTE_COLOR_KEY = 2,
   HOUR_COLOR_KEY = 3,
   BACKGROUND_COLOR_KEY = 4,
+  CIRCLE_COLOR_KEY = 5,
 };
 
 inline GColor8 persist_read_gcolor(int32_t key) {
