@@ -37,7 +37,7 @@ static void sync_error_handler(DictionaryResult dict_error, AppMessageResult app
 
 void calendar_init() {
   // Begin using AppMessage, needed by AppSync
-  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+  app_message_open(app_message_inbox_size_maximum() / 2, app_message_outbox_size_maximum() / 2);
 
   // Setup initial values
   uint8_t zeros[DATA_LENGTH];
