@@ -5,9 +5,26 @@
 		<title>It works!</title>
 
 		<link rel='stylesheet' type='text/css' href='css/slate.css'>
-		<script src="js/gcal.js"> </script>
-		<script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script>
 		<script src='js/slate.js'> </script>
+		<!-- script src="js/gcal.js"> </script -->
+		<!-- script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script -->
+		
+		<script language="javascript">
+		function return() {
+			var settings = {
+				"calendar": document.getElementById("in-cal").value,
+				"color-hour": document.getElementById("in-hour").value,
+				"color-minute": document.getElementById("in-min").value,
+				"color-appointment": document.getElementById("in-appt").value,
+				"color-circle": document.getElementById("in-circle").value,
+				"color-background": document.getElementById("in-back").value,
+			}
+			
+			// Set the return URL depending on the runtime environment
+			var return_to = getQueryParam('return_to', 'pebblejs://close#');
+			document.location = return_to + encodeURIComponent(JSON.stringify(settings));
+		}
+		</script>
 
 		<style>
 .title {
@@ -26,6 +43,7 @@
 
 		<div class='item-container'>
 			<div class='item-container-header'>Your calendar</div>
+			<!--
 			<div id="authorize-div" style="display: none">
 				<div class='item-container-content'>
 					<label class='item'>
@@ -36,13 +54,53 @@
 				<div class='item-container-footer'>
 					To be able to display your appointments, FullCircle needs read access to your calendar.
 				</div>
-			</div> <!-- Authorize-div -->
-			<pre id="output"></pre>
+			</div> Authorize-div
+			-->
+			<div class="item-container-content">
+				<label class="item">
+					<div class="item-input-wrapper">
+					<input type="text" class="item-input" name="calendar" id="in-cal" placeholder="Calendar ID">
+					</div>
+				</label>
+			</div>
+			<div class='item-container-footer'>
+				The Google Calendar ID to read appointments from.
+				Usually your Gmail address.
+				Don't forget to make its free/busy information public.
+			</div>
 		</div>
+		
+		<div class="item-container">
+		<div class="item-container-header">Colors</div>
+			<div class="item-container-content">
+			<label class="item">
+			Clock hour hand
+			<input type="text" class="item-color item-color-normal" name="color-hour" id="in-hour" value="#FFFFFF">
+			</label>
+			<label class="item">
+			Clock minute hand
+			<input type="text" class="item-color item-color-normal" name="color-min" id="in-min" value="#FFFFFF">
+			</label>
+			<label class="item">
+			Appointment circle
+			<input type="text" class="item-color item-color-normal" name="color-circle" id="in-circle" value="#000000">
+			</label>
+			<label class="item">
+			Appointments
+			<input type="text" class="item-color item-color-normal" name="color-appt" id="in-appt" value="#FFFFFF">
+			</label>
+			<label class="item">
+			Background
+			<input type="text" class="item-color item-color-normal" name="color-back" id="in-back" value="#000000">
+			</label>
+			</div>
 		</div>
 
-		<p> <a href="pebblejs://close#pumpkin">
-			Click to close. </a> </p>
+		<div class="item-container">
+			<div class="button-container">
+			<input type="button" class="item-button" onclick="return()" value="SAVE">
+			</div>
+		</div>
 
 	</body>
 </html>
