@@ -3,8 +3,6 @@
 #include "storage.h"
 
 Calendar s_cal;
-/* The calendar is fake for now, since I have no clue how to slurp events from Google.
-   You have an appointment from 2 to 3.30 and one from 6 till 7. */
 
 GRect s_screen;
 
@@ -16,17 +14,18 @@ static uint8_t s_hour;
 static uint8_t s_minute;
 
 // Update the watchface display
-static void update_display(Layer *layer, GContext *ctx) {  
+static void update_display(Layer *layer, GContext *ctx) {
+  graphics_context_set_stroke_color(ctx, s_palette->hours);
+  draw_fullcircle(ctx);
+  graphics_context_set_stroke_color(ctx, s_palette->appointments);
+  draw_appointments(ctx, s_cal);
+  
   // Draw clock
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS);
   graphics_context_set_stroke_color(ctx, s_palette->minutes);
   draw_minutes(ctx, s_minute);
   
   graphics_context_set_stroke_color(ctx, s_palette->hours);
   draw_hours(ctx, s_hour % 12, s_minute);
-  
-  graphics_context_set_stroke_color(ctx, s_palette->appointments);
-  draw_appointments(ctx, s_cal);
 }
 
 // Update the current time values for the watchface

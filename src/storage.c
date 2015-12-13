@@ -2,7 +2,7 @@
 
 void load_palette(Palette *p) {
   *p = (Palette) {
-      COLOR_FALLBACK(persist_exists(APPOINTMENT_COLOR_KEY) ? persist_read_gcolor(APPOINTMENT_COLOR_KEY) : GColorOrange,      GColorWhite),
+      COLOR_FALLBACK(persist_exists(APPOINTMENT_COLOR_KEY) ? persist_read_gcolor(APPOINTMENT_COLOR_KEY) : GColorWhite,       GColorWhite),
       COLOR_FALLBACK(persist_exists(MINUTE_COLOR_KEY)      ? persist_read_gcolor(MINUTE_COLOR_KEY)      : GColorTiffanyBlue, GColorWhite),
       COLOR_FALLBACK(persist_exists(HOUR_COLOR_KEY)        ? persist_read_gcolor(HOUR_COLOR_KEY)        : GColorRed,         GColorWhite),
       COLOR_FALLBACK(persist_exists(BACKGROUND_COLOR_KEY)  ? persist_read_gcolor(BACKGROUND_COLOR_KEY)  : GColorBlack,       GColorBlack)

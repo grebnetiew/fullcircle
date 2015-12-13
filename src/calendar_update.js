@@ -13,12 +13,7 @@ function zeros() {
 
 var appointments = zeros();
 
-Pebble.addEventListener('ready', function(e) {
-  console.log('JavaScript app ready and running!');
-  appointments = retrieveAppointments();
-  sendAppointments();
-  setTimeout(calendarUpdate, 900000);
-});
+Pebble.addEventListener('ready', calendarUpdate);
 
 function retrieveAppointments() {
   var apiClientID = '1337';
@@ -70,12 +65,14 @@ function retrieveAppointments() {
     newAppointments[4*i + 2] = (new Date(freebusy[i].end)).getHours();
     newAppointments[4*i + 3] = (new Date(freebusy[i].end)).getMinutes();
   }
+  
+  return newAppointments;
 }
 
-function sendAppointments() { 
+function sendAppointments(appointments) { 
   Pebble.sendAppMessage( { '1': appointments },
     function(e) {
-      console.log('Successfully delivered message ' + appointments.toString() + ' with transactionId=' + e.data.transactionId);
+      console.log('Successfully delivered message ' + JSON.stringify(appointments) + ' with transactionId=' + e.data.transactionId);
     },
     function(e) {
       console.log('Unable to deliver message with transactionId=' + e.data.transactionId  + ' Error is: ' + e.error.message);
@@ -85,9 +82,9 @@ function sendAppointments() {
 
 function calendarUpdate() {
   var newAppointments = retrieveAppointments();
-  if (newAppointments.toString() != appointments.toString()) {
+  if (JSON.stringify(newAppointments) != JSON.stringify(appointments)) {
     appointments = newAppointments;
-    sendAppointments();
+    sendAppointments(appointments);
   }
   setTimeout(calendarUpdate, 900000);
 }
