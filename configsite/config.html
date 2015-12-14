@@ -53,7 +53,6 @@
 			document.getElementById("in-circle").value = config["color-circle"];
 			document.getElementById("in-back").value = config["color-background"];
 		}
-		document.body.addEventListener("load", currentValues);
 		</script>
 
 		<style>
@@ -128,7 +127,7 @@
 
 		<div class="item-container">
 			<div class="button-container">
-			<input type="button" class="item-button" onclick="submit()" value="SAVE">
+			<input type="button" class="item-button" onclick="submit()" onload="currentValues()" value="SAVE">
 			</div>
 		</div>
 
