@@ -10,7 +10,7 @@
 		<!-- script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script -->
 		
 		<script language="javascript">
-		function getQueryParam(param, default) {
+		function getQueryParam(param, defaultvalue) {
 		        // get the pairs of params fist
 		        var pairs = location.search.substring(1).split('&');
 		        var values = [];
@@ -27,7 +27,7 @@
 		        if (values.length > 0) {
 		            return values;
 		        } else {
-		            return default;
+		            return defaultvalue;
 		        }
 		};
 		
