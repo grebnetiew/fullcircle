@@ -7,7 +7,14 @@
     "longName": "FullCircle",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/menu.png",
+                "menuIcon": true,
+                "name": "MENU_LOGO",
+                "type": "png"
+            }
+        ]
     },
     "sdkVersion": "3",
     "shortName": "FullCircle",
