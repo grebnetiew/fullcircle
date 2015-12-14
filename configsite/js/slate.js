@@ -215,14 +215,9 @@ var Zepto=function(){function L(t){return null==t?String(t):j[S.call(t)]||"objec
           $color.val(value);
           $valueDisplay.css('background-color', value.replace(/^0x/, '#'));
           $item.find('.color-box-wrap').removeClass('show');
-        });
-        
-        $color.bind('change', function() {
-          $valueDisplay.css('background-color', $color.val().replace(/^0x/, '#'));
-        });
+        })
 
       });
-      
     },
 
     tab: function() {
@@ -233,7 +228,7 @@ var Zepto=function(){function L(t){return null==t?String(t):j[S.call(t)]||"objec
           var $current = $(this);
           var name = $current.attr('name');
 
-          $('a[name=' + name + ']').each(function(){
+          $('a[name="' + name + '"]').each(function(){
             $(this).removeClass('active');
           });
 
@@ -246,7 +241,7 @@ var Zepto=function(){function L(t){return null==t?String(t):j[S.call(t)]||"objec
       this.each(function() {
         var $slider = $(this);
         var name = $slider.attr('name');
-        var $input = $('input[name=' + name + '][class=item-input]');
+        var $input = $('input[name="' + name + '"][class=item-input]');
 
         $slider.on('input', function() {
           var $current = $(this);
