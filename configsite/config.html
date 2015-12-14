@@ -43,7 +43,8 @@
 			
 			// Set the return URL depending on the runtime environment
 			var return_to = getQueryParam('return_to', 'pebblejs://close#');
-			document.location = return_to + encodeURIComponent(JSON.stringify(settings));
+			document.location = decodeURIComponent(return_to) + 
+				encodeURIComponent(JSON.stringify(settings));
 		}
 		</script>
 
