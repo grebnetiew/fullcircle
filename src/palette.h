@@ -7,6 +7,7 @@ typedef struct Palette {
   GColor hours;
   GColor background;
   GColor circle;
+  GColor date;
 } Palette;
 
 void set_palette(uint32_t key, GColor col);

@@ -115,6 +115,7 @@ Pebble.addEventListener('showConfiguration', function(e) {
                    "color-appointment": localStorage.getItem(13),
                    "color-circle": localStorage.getItem(14),
                    "color-background": localStorage.getItem(15),
+                   "color-date": localStorage.getItem(16),
                  })));
 });
 
@@ -130,6 +131,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
   localStorage.setItem(13, config_data["color-appointment"]);
   localStorage.setItem(14, config_data["color-circle"]);
   localStorage.setItem(15, config_data["color-background"]);
+  localStorage.setItem(16, config_data["color-date"]);
   // Prepare AppMessage payload
   var dict = {
     "11": hexToInt(config_data["color-hour"]),
@@ -137,6 +139,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
     "13": hexToInt(config_data["color-appointment"]),
     "14": hexToInt(config_data["color-circle"]),
     "15": hexToInt(config_data["color-background"]),
+    "16": hexToInt(config_data["color-date"]),
   };
 
   // Send settings to Pebble watchapp

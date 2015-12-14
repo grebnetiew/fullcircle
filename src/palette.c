@@ -22,5 +22,6 @@ void set_palette(uint32_t key, GColor col) {
     case KEY_COL_APPOINTMENT: s_palette->appointments = col; break;
     case KEY_COL_CIRCLE:      s_palette->circle = col;       break;
     case KEY_COL_BACKGROUND:  s_palette->background = col;   break;
+    case KEY_COL_DATE:        s_palette->date = col;         break;
   }
 }

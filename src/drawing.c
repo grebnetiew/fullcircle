@@ -68,7 +68,14 @@ void draw_appointments(GContext *ctx) {
     if (appointment_start(a) == appointment_end(a)) {
       break;
     }
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Going to draw appt from %d to %d", (int)appointment_start(a), (int)appointment_end(a));
     graphics_draw_arc(ctx, s_screen, GOvalScaleModeFitCircle,
-                      to_angle(appointment_start(a)), to_angle(appointment_end(a));
+                      to_angle(appointment_start(a)), to_angle(appointment_end(a)));
   }
+}
+
+void draw_date(const char *text) {
+  text_layer_set_text_color(s_date_text, maybe_to_gray(s_palette->appointments));
+  text_layer_set_background_color(s_date_text, GColorClear);
+  text_layer_set_text(s_date_text, text);
 }

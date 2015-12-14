@@ -9,6 +9,7 @@ enum PersistKeys {
   KEY_COL_APPOINTMENT = 3,
   KEY_COL_CIRCLE = 4,
   KEY_COL_BACKGROUND = 5,
+  KEY_COL_DATE = 6,
 };
 
 inline GColor8 persist_read_gcolor(int32_t key) {

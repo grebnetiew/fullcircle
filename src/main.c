@@ -12,13 +12,15 @@ extern Palette *s_palette;
 
 static uint8_t s_hour;
 static uint8_t s_minute;
+static char s_date[8];
 bool s_connected;
 
 // Update the watchface display
 static void update_display(Layer *layer, GContext *ctx) {
-  // Grayscale if not connected to bluetooth
   draw_fullcircle(ctx);
   draw_appointments(ctx);
+  
+  draw_date(s_date);
   
   // Draw clock
   draw_minutes(ctx, s_minute);
@@ -29,6 +31,7 @@ static void update_display(Layer *layer, GContext *ctx) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   s_hour = tick_time->tm_hour;
   s_minute = tick_time->tm_min;
+  strftime(s_date, sizeof(s_date), "%a %e", tick_time);
   layer_mark_dirty(s_layer);
 }
 
@@ -48,7 +51,7 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_layer, update_display);
   
   GPoint center = grect_center_point(&s_screen);
-  s_date_text = text_layer_create(GRect(center.x, center.y - 5, center.x + 20, center.y + 5));
+  s_date_text = text_layer_create(GRect(center.x + 15, center.y - 9, 60, 18));
   layer_add_child(s_layer, text_layer_get_layer(s_date_text));
 }
 
