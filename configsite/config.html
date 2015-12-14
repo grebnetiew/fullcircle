@@ -53,6 +53,7 @@
 			document.getElementById("in-circle").value = config["color-circle"];
 			document.getElementById("in-back").value = config["color-background"];
 		}
+		document.addEventListener("load", currentValues);
 		</script>
 
 		<style>
@@ -67,7 +68,7 @@
 }
 		</style>
 	</head>
-	<body onload="currentValues()">
+	<body>
 		<h1 class='title'>FullCircle configuration</h1>
 
 		<div class='item-container'>
