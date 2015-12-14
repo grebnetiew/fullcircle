@@ -13,13 +13,16 @@ function zeros() {
 
 var appointments = zeros();
 
-Pebble.addEventListener('ready', calendarUpdate);
+Pebble.addEventListener('ready', function(){
+  setInterval(calendarUpdate, 900000);
+  calendarUpdate();
+});
 
 function retrieveAppointments() {
   var apiClientID = '1337';
   var apiClientSecret = 'LOL';
   var apiKey = 'AIzaSyDaa5bCvVpTkWOwpdMu_3mwDMF4x92f240';
-  var calendar = "eweitenberg@gmail.com";
+  var calendar = "e.r.a.weitenberg@gmail.com";//localStorage.getItem(0);
   var timeMin = new Date();
   var timeMax = new Date(timeMin);
   timeMax.setHours(timeMax.getHours() + 12);
@@ -42,7 +45,7 @@ function retrieveAppointments() {
   
   //console.log("Answer was " + req.responseText);
   
-  if (Object.keys(response)[0] == "error") {
+  if (Object.keys(response)[0] == "error" || !response.calendars[calendar]) {
     // An error occurred, or the calendar is simply empty.
     console.log("Something might be wrong. The error was " + JSON.stringify(response.error.errors[0]));
     return zeros();
@@ -86,5 +89,38 @@ function calendarUpdate() {
     appointments = newAppointments;
     sendAppointments(appointments);
   }
-  setTimeout(calendarUpdate, 900000);
 }
+
+function hexToInt(hex) {
+  return parseInt(hex.replace("#", "0x")) || 0;
+}
+
+// Show config page when needed
+Pebble.addEventListener('showConfiguration', function(e) {
+  Pebble.openURL('http://saffier.no-ip.org/fullcircle/config.html');
+});
+
+// Send the config after it's been updated
+Pebble.addEventListener('webviewclosed', function(e) {
+  // Decode and parse config data as JSON
+  var config_data = JSON.parse(decodeURIComponent(e.response));
+  console.log('Config window returned: ', JSON.stringify(config_data));
+
+  localStorage.setItem(0, config_data.calendar);
+  // Prepare AppMessage payload
+  var dict = {
+    "11": hexToInt(config_data["color-hour"]),
+    "12": hexToInt(config_data["color-minute"]),
+    "13": hexToInt(config_data["color-appointment"]),
+    "14": hexToInt(config_data["color-circle"]),
+    "15": hexToInt(config_data["color-background"]),
+  };
+
+  // Send settings to Pebble watchapp
+  Pebble.sendAppMessage(dict, function(){
+    console.log('Sent config data to Pebble');  
+  }, function() {
+    console.log('Failed to send config data!');
+  });
+  calendarUpdate();
+});

@@ -1,4 +1,5 @@
 #include "appointment.h"
+#include "storage.h"
 
 #define CAL_CURRENT_VER 1
 #define CAL_BUFFER_SIZE 64
@@ -16,9 +17,13 @@ static uint8_t s_sync_buffer[CAL_BUFFER_SIZE];
 extern Calendar s_cal;
 extern Layer *s_layer;
 
-// We update the internal calendar here if the 
+// We update the internal calendar here
 static void sync_changed_handler(const uint32_t key, const Tuple *new_tuple, const Tuple *old_tuple, void *context) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received with key %d\n", (int) key);
+  if (key > 10 && key <= 15) {
+    set_palette(key, GColorFromHEX(new_tuple->value->uint32));
+    return;
+  }
   if (key != 1 || new_tuple->length != DATA_LENGTH) { 
     return;
   }

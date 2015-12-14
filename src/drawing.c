@@ -40,13 +40,13 @@ void draw_hours(GContext *ctx, uint8_t hours, uint8_t minutes) {
 
 // Handle appointment circle
 void draw_fullcircle(GContext *ctx) {
-  graphics_context_set_stroke_width(ctx, 1);
+  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 4);
   graphics_draw_arc(ctx, s_screen, GOvalScaleModeFitCircle,
                     to_angle(0), to_angle(12 * 60));
 }
 
 void draw_appointments(GContext *ctx, Appointment *cal) {
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 3);
+  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 2);
   for (Appointment *a = cal, *end = cal + 10; a != end; ++a) {
     if (a->start == a->end) {
       break;

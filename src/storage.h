@@ -11,11 +11,11 @@ typedef struct Palette {
 } Palette;
 
 enum PersistKeys {
-  APPOINTMENT_COLOR_KEY = 1,
-  MINUTE_COLOR_KEY = 2,
-  HOUR_COLOR_KEY = 3,
-  BACKGROUND_COLOR_KEY = 4,
-  CIRCLE_COLOR_KEY = 5,
+  KEY_COL_HOUR = 1,
+  KEY_COL_MINUTE = 2,
+  KEY_COL_APPOINTMENT = 3,
+  KEY_COL_CIRCLE = 4,
+  KEY_COL_BACKGROUND = 5,
 };
 
 inline GColor8 persist_read_gcolor(int32_t key) {
@@ -28,3 +28,5 @@ inline status_t persist_write_gcolor(uint32_t key, GColor8 value) {
 
 void load_palette(Palette *p);
 void save_palette(Palette *p);
+
+void set_palette(uint32_t key, GColor col);
