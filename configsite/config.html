@@ -10,21 +10,23 @@
 		<!-- script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script -->
 		
 		<script language="javascript">
-		var submitButton = document.getElementById('submit-button');
-		submitButton.addEventListener('click', function() {
-			var settings = {
-				"calendar": document.getElementById("in-cal").value,
-				"color-hour": document.getElementById("in-hour").value,
-				"color-minute": document.getElementById("in-min").value,
-				"color-appointment": document.getElementById("in-appt").value,
-				"color-circle": document.getElementById("in-circle").value,
-				"color-background": document.getElementById("in-back").value,
-			}
-			
-			// Set the return URL depending on the runtime environment
-			var return_to = getQueryParam('return_to', 'pebblejs://close#');
-			document.location = return_to + encodeURIComponent(JSON.stringify(settings));
-		});
+		function makesubmit() {
+			var submitButton = document.getElementById('submitbutton');
+			submitButton.addEventListener('click', function() {
+				var settings = {
+					"calendar": document.getElementById("in-cal").value,
+					"color-hour": document.getElementById("in-hour").value,
+					"color-minute": document.getElementById("in-min").value,
+					"color-appointment": document.getElementById("in-appt").value,
+					"color-circle": document.getElementById("in-circle").value,
+					"color-background": document.getElementById("in-back").value,
+				}
+				
+				// Set the return URL depending on the runtime environment
+				var return_to = getQueryParam('return_to', 'pebblejs://close#');
+				document.location = return_to + encodeURIComponent(JSON.stringify(settings));
+			});
+		}
 		</script>
 
 		<style>
@@ -39,7 +41,7 @@
 }
 		</style>
 	</head>
-	<body>
+	<body onload="makesubmit()">
 		<h1 class='title'>FullCircle configuration</h1>
 
 		<div class='item-container'>
@@ -99,7 +101,7 @@
 
 		<div class="item-container">
 			<div class="button-container">
-			<input type="button" class="item-button" id="submit-button" value="SAVE">
+			<input type="button" class="item-button" id="submitbutton" value="SAVE">
 			</div>
 		</div>
 
