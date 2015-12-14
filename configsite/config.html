@@ -10,22 +10,40 @@
 		<!-- script src="https://apis.google.com/js/client.js?onload=checkAuth"> </script -->
 		
 		<script language="javascript">
-		function makesubmit() {
-			var submitButton = document.getElementById('submitbutton');
-			submitButton.addEventListener('click', function() {
-				var settings = {
-					"calendar": document.getElementById("in-cal").value,
-					"color-hour": document.getElementById("in-hour").value,
-					"color-minute": document.getElementById("in-min").value,
-					"color-appointment": document.getElementById("in-appt").value,
-					"color-circle": document.getElementById("in-circle").value,
-					"color-background": document.getElementById("in-back").value,
-				}
-				
-				// Set the return URL depending on the runtime environment
-				var return_to = getQueryParam('return_to', 'pebblejs://close#');
-				document.location = return_to + encodeURIComponent(JSON.stringify(settings));
-			});
+		function getQueryParam(param, default) {
+		        // get the pairs of params fist
+		        var pairs = location.search.substring(1).split('&');
+		        var values = [];
+		        // now iterate each pair
+		        for (var i = 0; i < pairs.length; i++) {
+		            var params = pairs[i].split('=');
+		            if (params[0] == param) {
+		                // if the param doesn't have a value, like ?photos&videos, then return an empty srting
+		                //return params[1] || '';
+		                values.push(params[1]);
+		            }
+		        }
+		
+		        if (values.length > 0) {
+		            return values;
+		        } else {
+		            return default;
+		        }
+		};
+		
+		function submit() {
+			var settings = {
+				"calendar": document.getElementById("in-cal").value,
+				"color-hour": document.getElementById("in-hour").value,
+				"color-minute": document.getElementById("in-min").value,
+				"color-appointment": document.getElementById("in-appt").value,
+				"color-circle": document.getElementById("in-circle").value,
+				"color-background": document.getElementById("in-back").value,
+			}
+			
+			// Set the return URL depending on the runtime environment
+			var return_to = getQueryParam('return_to', 'pebblejs://close#');
+			document.location = return_to + encodeURIComponent(JSON.stringify(settings));
 		}
 		</script>
 
@@ -41,7 +59,7 @@
 }
 		</style>
 	</head>
-	<body onload="makesubmit()">
+	<body>
 		<h1 class='title'>FullCircle configuration</h1>
 
 		<div class='item-container'>
@@ -101,7 +119,7 @@
 
 		<div class="item-container">
 			<div class="button-container">
-			<input type="button" class="item-button" id="submitbutton" value="SAVE">
+			<input type="button" class="item-button" onclick="submit()" value="SAVE">
 			</div>
 		</div>
 
