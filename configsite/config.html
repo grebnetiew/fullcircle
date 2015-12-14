@@ -32,6 +32,7 @@
 				"color-appointment": document.getElementById("in-appt").value,
 				"color-circle": document.getElementById("in-circle").value,
 				"color-background": document.getElementById("in-back").value,
+				"color-date": document.getElementById("in-date").value,
 			}
 			
 			// Set the return URL depending on the runtime environment
@@ -53,6 +54,7 @@
 			document.getElementById("in-appt").value = config["color-appointment"].replace("0x","#");
 			document.getElementById("in-circle").value = config["color-circle"].replace("0x","#");
 			document.getElementById("in-back").value = config["color-background"].replace("0x","#");
+			document.getElementById("in-date").value = config["color-date"].replace("0x","#");
 		}
 		</script>
 
@@ -122,6 +124,10 @@
 			<label class="item">
 			Background
 			<input type="text" class="item-color item-color-sunny" name="color-back" id="in-back" value="#000000">
+			</label>
+			<label class="item">
+			Date and weekday
+			<input type="text" class="item-color item-color-sunny" name="color-date" id="in-date" value="#FFFFFF">
 			</label>
 			</div>
 		</div>
