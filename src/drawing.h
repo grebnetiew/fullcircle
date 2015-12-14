@@ -1,7 +1,7 @@
 #include <pebble.h>
 #include "appsync.h"
 
-#define SCREEN_BORDER 10
+#define SCREEN_BORDER PBL_IF_RECT_ELSE(3,10)
 #define RADIUS_HOURHAND 45
 #define RADIUS_MINUTEHAND 60
 #define LINE_THICKNESS 3
