@@ -29,24 +29,28 @@ void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
 // Handle representation for minutes
 void draw_minutes(GContext *ctx, uint8_t minutes) {
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 1);
+  graphics_context_set_antialiased(ctx, true);
   draw_hand(ctx, angle_from_minutes(minutes), RADIUS_MINUTEHAND);
 }
 
 // Handle representation for hours
 void draw_hours(GContext *ctx, uint8_t hours, uint8_t minutes) {
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS);
+  graphics_context_set_antialiased(ctx, true);
   draw_hand(ctx, angle_from_hours(hours * 60 + minutes), RADIUS_HOURHAND);
 }
 
 // Handle appointment circle
 void draw_fullcircle(GContext *ctx) {
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 4);
+  graphics_context_set_antialiased(ctx, true);
   graphics_draw_arc(ctx, s_screen, GOvalScaleModeFitCircle,
                     to_angle(0), to_angle(12 * 60));
 }
 
 void draw_appointments(GContext *ctx, Appointment *cal) {
   graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 2);
+  graphics_context_set_antialiased(ctx, true);
   for (Appointment *a = cal, *end = cal + 10; a != end; ++a) {
     if (a->start == a->end) {
       break;

@@ -15,7 +15,6 @@ static uint8_t s_minute;
 
 // Update the watchface display
 static void update_display(Layer *layer, GContext *ctx) {
-  graphics_context_set_antialiased(ctx, true);
   graphics_context_set_stroke_color(ctx, s_palette->circle);
   draw_fullcircle(ctx);
   graphics_context_set_stroke_color(ctx, s_palette->appointments);

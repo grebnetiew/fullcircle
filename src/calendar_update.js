@@ -18,11 +18,8 @@ Pebble.addEventListener('ready', function(){
   calendarUpdate();
 });
 
-function retrieveAppointments() {
-  var apiClientID = '1337';
-  var apiClientSecret = 'LOL';
+function getfreebusy(calendar) {
   var apiKey = 'AIzaSyDaa5bCvVpTkWOwpdMu_3mwDMF4x92f240';
-  var calendar = "e.r.a.weitenberg@gmail.com";//localStorage.getItem(0);
   var timeMin = new Date();
   var timeMax = new Date(timeMin);
   timeMax.setHours(timeMax.getHours() + 12);
@@ -48,27 +45,40 @@ function retrieveAppointments() {
   if (Object.keys(response)[0] == "error" || !response.calendars[calendar]) {
     // An error occurred, or the calendar is simply empty.
     console.log("Something might be wrong. The error was " + JSON.stringify(response.error.errors[0]));
-    return zeros();
+    return false;
   }
   if (response.calendars[calendar].errors) {
     console.log("Errors from Google Calendar: " + 
                 JSON.stringify(response.calendars[calendar].errors));
-    return zeros();
+    return false;
   }
   var freebusy = response.calendars[calendar].busy;
   if (!freebusy) {
     console.log("There was no free-busy information.");
-    return zeros();
+    return false;
+  }
+  return freebusy;
+}
+
+function retrieveAppointments() {
+  var calendar = localStorage.getItem(0).split(",");
+  var freebusy = [];
+  for (var i = 0; i != calendar.length; ++i) {
+    var fb = getfreebusy(calendar[i]);
+    if (fb && fb.length > 0) {
+      freebusy = freebusy.concat(fb);
+    }
   }
   
   var newAppointments = zeros();
-  for(var i = 0; i != Math.min(10, freebusy.length); ++i) {
+  for(i = 0; i != Math.min(10, freebusy.length); ++i) {
     newAppointments[4*i + 0] = (new Date(freebusy[i].start)).getHours();
     newAppointments[4*i + 1] = (new Date(freebusy[i].start)).getMinutes();
     newAppointments[4*i + 2] = (new Date(freebusy[i].end)).getHours();
     newAppointments[4*i + 3] = (new Date(freebusy[i].end)).getMinutes();
   }
   
+  console.log("the byte array is " + JSON.stringify(newAppointments));
   return newAppointments;
 }
 
@@ -97,7 +107,15 @@ function hexToInt(hex) {
 
 // Show config page when needed
 Pebble.addEventListener('showConfiguration', function(e) {
-  Pebble.openURL('http://saffier.no-ip.org/fullcircle/config.html');
+  Pebble.openURL('http://saffier.no-ip.org/fullcircle/config.html?current=' +
+                 encodeURIComponent(JSON.stringify({
+                   "calendar": localStorage.getItem(0),
+                   "color-hour": localStorage.getItem(11),
+                   "color-minute": localStorage.getItem(12),
+                   "color-appointment": localStorage.getItem(13),
+                   "color-circle": localStorage.getItem(14),
+                   "color-background": localStorage.getItem(15),
+                 })));
 });
 
 // Send the config after it's been updated
@@ -107,6 +125,11 @@ Pebble.addEventListener('webviewclosed', function(e) {
   console.log('Config window returned: ', JSON.stringify(config_data));
 
   localStorage.setItem(0, config_data.calendar);
+  localStorage.setItem(11, config_data["color-hour"]);
+  localStorage.setItem(12, config_data["color-minute"]);
+  localStorage.setItem(13, config_data["color-appointment"]);
+  localStorage.setItem(14, config_data["color-circle"]);
+  localStorage.setItem(15, config_data["color-background"]);
   // Prepare AppMessage payload
   var dict = {
     "11": hexToInt(config_data["color-hour"]),
