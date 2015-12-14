@@ -39,6 +39,20 @@
 			document.location = decodeURIComponent(return_to) + 
 				encodeURIComponent(JSON.stringify(settings));
 		}
+		
+		function currentValues() {
+			var config = getQueryParam('current', false);
+			if (config == false) {
+				return;
+			}
+			config = JSON.parse(config);
+			document.getElementById("in-cal").value = config["calendar"];
+			document.getElementById("in-hour").value = config["color-hour"];
+			document.getElementById("in-min").value = config["color-minute"];
+			document.getElementById("in-appt").value = config["color-appointment"];
+			document.getElementById("in-circle").value = config["color-circle"];
+			document.getElementById("in-back").value = config["color-background"];
+		}
 		</script>
 
 		<style>
@@ -53,7 +67,7 @@
 }
 		</style>
 	</head>
-	<body>
+	<body onload="currentValues()">
 		<h1 class='title'>FullCircle configuration</h1>
 
 		<div class='item-container'>
