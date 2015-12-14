@@ -42,6 +42,7 @@
 		
 		function currentValues() {
 			var config = getQueryParam('current', false);
+			console.log("setting current values " + config);
 			if (config == false) {
 				return;
 			}
@@ -67,7 +68,7 @@
 }
 		</style>
 	</head>
-	<body>
+	<body onload="currentValues()">
 		<h1 class='title'>FullCircle configuration</h1>
 
 		<div class='item-container'>
@@ -127,7 +128,7 @@
 
 		<div class="item-container">
 			<div class="button-container">
-			<input type="button" class="item-button" onclick="submit()" onload="currentValues()" value="SAVE">
+			<input type="button" class="item-button" onclick="submit()" value="SAVE">
 			</div>
 		</div>
 
