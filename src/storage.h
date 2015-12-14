@@ -1,14 +1,7 @@
 #pragma once
 
 #include <pebble.h>
-
-typedef struct Palette {
-  GColor appointments;
-  GColor minutes;
-  GColor hours;
-  GColor background;
-  GColor circle;
-} Palette;
+#include "palette.h"
 
 enum PersistKeys {
   KEY_COL_HOUR = 1,
@@ -28,5 +21,3 @@ inline status_t persist_write_gcolor(uint32_t key, GColor8 value) {
 
 void load_palette(Palette *p);
 void save_palette(Palette *p);
-
-void set_palette(uint32_t key, GColor col);

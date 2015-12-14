@@ -1,63 +1,67 @@
 #include <pebble.h>
-#include "ui.h"
+#include "drawing.h"
 #include "storage.h"
 
-Calendar s_cal;
-
+static Window *s_window;
 GRect s_screen;
 
-static Window *s_window;
 Layer *s_layer;
-Palette *s_palette;
+TextLayer *s_date_text;
+
+extern Palette *s_palette;
 
 static uint8_t s_hour;
 static uint8_t s_minute;
+bool s_connected;
 
 // Update the watchface display
 static void update_display(Layer *layer, GContext *ctx) {
-  graphics_context_set_stroke_color(ctx, s_palette->circle);
+  // Grayscale if not connected to bluetooth
   draw_fullcircle(ctx);
-  graphics_context_set_stroke_color(ctx, s_palette->appointments);
-  draw_appointments(ctx, s_cal);
+  draw_appointments(ctx);
   
   // Draw clock
-  graphics_context_set_stroke_color(ctx, s_palette->minutes);
   draw_minutes(ctx, s_minute);
-  
-  graphics_context_set_stroke_color(ctx, s_palette->hours);
   draw_hours(ctx, s_hour % 12, s_minute);
 }
 
-// Update the current time values for the watchface
-static void update_time(struct tm *tick_time) {
+// Update the display if time or connection status changes
+static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   s_hour = tick_time->tm_hour;
   s_minute = tick_time->tm_min;
   layer_mark_dirty(s_layer);
 }
 
-static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  update_time(tick_time);
+static void bluetooth_handler(bool connected) {
+  s_connected = connected;
+  layer_mark_dirty(s_layer);
 }
 
 static void window_load(Window *window) {
   s_palette = malloc(sizeof(Palette));
   load_palette(s_palette);
-  calendar_init();
+  appsync_init();
 
   s_layer = layer_create(layer_get_bounds(window_get_root_layer(s_window)));
   s_screen = grect_inset(layer_get_bounds(s_layer), GEdgeInsets(SCREEN_BORDER));
   layer_add_child(window_get_root_layer(s_window), s_layer);
   layer_set_update_proc(s_layer, update_display);
+  
+  GPoint center = grect_center_point(&s_screen);
+  s_date_text = text_layer_create(GRect(center.x, center.y - 5, center.x + 20, center.y + 5));
+  layer_add_child(s_layer, text_layer_get_layer(s_date_text));
 }
 
 static void window_unload(Window *window) {
   save_palette(s_palette);
   free(s_palette);
+  text_layer_destroy(s_date_text);
   layer_destroy(s_layer);
 }
 
 static void init() {
   s_window = window_create();
+  s_connected = connection_service_peek_pebble_app_connection();
 
   window_set_window_handlers(s_window, (WindowHandlers) {
     .load = window_load,
@@ -68,11 +72,15 @@ static void init() {
 
   time_t start = time(NULL);
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-  update_time(localtime(&start));
+  connection_service_subscribe((ConnectionHandlers) {
+    .pebble_app_connection_handler = bluetooth_handler
+  });
+  
+  tick_handler(localtime(&start), 0);
 }
 
 static void deinit() {
-  calendar_deinit();
+  appsync_deinit();
   tick_timer_service_unsubscribe();
   window_destroy(s_window);
 }

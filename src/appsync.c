@@ -1,4 +1,4 @@
-#include "appointment.h"
+#include "appsync.h"
 #include "storage.h"
 
 #define CAL_CURRENT_VER 1
@@ -19,7 +19,6 @@ enum DataKeys {
 static AppSync s_sync;
 static uint8_t s_sync_buffer[CAL_BUFFER_SIZE];
 
-extern Calendar s_cal;
 extern Palette *s_palette;
 extern Layer *s_layer;
 
@@ -28,15 +27,6 @@ static void sync_changed_handler(const uint32_t key, const Tuple *new_tuple, con
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Message received with key %d\n", (int) key);
   if (key > 10 && key <= 15) {
     set_palette(key, GColorFromHEX(new_tuple->value->uint32));
-    return;
-  }
-  if (key != 1 || new_tuple->length != DATA_LENGTH) { 
-    return;
-  }
-  // fill calendar with new data
-  for (int i = 0; i != 10; ++i) {
-    s_cal[i].start = new_tuple->value->data[4*i]     * 60 + new_tuple->value->data[4*i + 1];
-    s_cal[i].end   = new_tuple->value->data[4*i + 2] * 60 + new_tuple->value->data[4*i + 3];
   }
   layer_mark_dirty(s_layer);
 }
@@ -48,7 +38,7 @@ static void sync_error_handler(DictionaryResult dict_error, AppMessageResult app
   APP_LOG(APP_LOG_LEVEL_ERROR, "AppSync error %d, %d\n", dict_error, app_message_error);
 }
 
-void calendar_init() {
+void appsync_init() {
   // Begin using AppMessage, needed by AppSync
   app_message_open(app_message_inbox_size_maximum() / 2, app_message_outbox_size_maximum() / 2);
 
@@ -75,6 +65,17 @@ void calendar_init() {
                 NULL /* context */);
 }
 
-void calendar_deinit() {
+void appsync_deinit() {
   app_sync_deinit(&s_sync);
+}
+
+uint32_t appointment_start(uint8_t idx) {
+  const Tuple *t = app_sync_get(&s_sync, CAL_DATA_KEY);
+  return t->value->data[4*idx] * 60 + t->value->data[4*idx + 1];
+}
+
+uint32_t appointment_end(uint8_t idx) {
+  const Tuple *t = app_sync_get(&s_sync, CAL_DATA_KEY);
+  uint32_t end = t->value->data[4*idx + 2] * 60 + t->value->data[4*idx + 3];
+  return end < appointment_start(idx) ? end + 12 * 60 : end;
 }
