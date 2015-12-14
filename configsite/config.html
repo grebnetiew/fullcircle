@@ -47,12 +47,12 @@
 				return;
 			}
 			config = JSON.parse(config);
-			document.getElementById("in-cal").value = config["calendar"];
-			document.getElementById("in-hour").value = config["color-hour"];
-			document.getElementById("in-min").value = config["color-minute"];
-			document.getElementById("in-appt").value = config["color-appointment"];
-			document.getElementById("in-circle").value = config["color-circle"];
-			document.getElementById("in-back").value = config["color-background"];
+			document.getElementById("in-cal").value = config["calendar"].replace("0x","#");
+			document.getElementById("in-hour").value = config["color-hour"].replace("0x","#");
+			document.getElementById("in-min").value = config["color-minute"].replace("0x","#");
+			document.getElementById("in-appt").value = config["color-appointment"].replace("0x","#");
+			document.getElementById("in-circle").value = config["color-circle"].replace("0x","#");
+			document.getElementById("in-back").value = config["color-background"].replace("0x","#");
 		}
 		</script>
 
