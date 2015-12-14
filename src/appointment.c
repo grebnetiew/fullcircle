@@ -2,8 +2,13 @@
 #include "storage.h"
 
 #define CAL_CURRENT_VER 1
-#define CAL_BUFFER_SIZE 64
-// Thats 1 + 11 (version tuple) + 4 (bytes) x 10 (appt) + 7 (tuple hdr) = 59. And some slack.
+#define CAL_BUFFER_SIZE 128
+/* Size calc: 114
+   Dictionary hdr 1 (1)
+   Version tuple: 7 header + 4 data (11)
+   Storage: 40 bytes + 7 hdr (47)
+   Colors: 5 tuples, each 7 hdr and 4 data. (55)
+*/
 #define DATA_LENGTH 40
 
 enum DataKeys {
@@ -15,6 +20,7 @@ static AppSync s_sync;
 static uint8_t s_sync_buffer[CAL_BUFFER_SIZE];
 
 extern Calendar s_cal;
+extern Palette *s_palette;
 extern Layer *s_layer;
 
 // We update the internal calendar here
@@ -39,6 +45,7 @@ static void sync_error_handler(DictionaryResult dict_error, AppMessageResult app
   // An error occured!
   // We are not really in a position to do anything about it.
   // Maybe in the future, we can display a Mysterious Error Icon?
+  APP_LOG(APP_LOG_LEVEL_ERROR, "AppSync error %d, %d\n", dict_error, app_message_error);
 }
 
 void calendar_init() {
@@ -54,6 +61,11 @@ void calendar_init() {
   Tuplet initial_values[] = {
     TupletInteger(CAL_VER_KEY, (int32_t) CAL_CURRENT_VER),
     TupletBytes  (CAL_DATA_KEY, zeros, DATA_LENGTH),
+    TupletInteger(KEY_COL_HOUR + 10,        hexFromGColor(s_palette->hours)),
+    TupletInteger(KEY_COL_MINUTE + 10,      hexFromGColor(s_palette->minutes)),
+    TupletInteger(KEY_COL_APPOINTMENT + 10, hexFromGColor(s_palette->appointments)),
+    TupletInteger(KEY_COL_CIRCLE + 10,      hexFromGColor(s_palette->circle)),
+    TupletInteger(KEY_COL_BACKGROUND + 10,  hexFromGColor(s_palette->background))
   };
 
   // Begin using AppSync

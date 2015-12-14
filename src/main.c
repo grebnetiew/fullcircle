@@ -43,6 +43,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 static void window_load(Window *window) {
   s_palette = malloc(sizeof(Palette));
   load_palette(s_palette);
+  calendar_init();
 
   s_layer = layer_create(layer_get_bounds(window_get_root_layer(s_window)));
   s_screen = grect_inset(layer_get_bounds(s_layer), GEdgeInsets(SCREEN_BORDER));
@@ -69,7 +70,6 @@ static void init() {
   time_t start = time(NULL);
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   update_time(localtime(&start));
-  calendar_init();
 }
 
 static void deinit() {

@@ -118,7 +118,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   // Send settings to Pebble watchapp
   Pebble.sendAppMessage(dict, function(){
-    console.log('Sent config data to Pebble');  
+    console.log('Sent config data ' + JSON.stringify(dict) + ' to Pebble');  
   }, function() {
     console.log('Failed to send config data!');
   });

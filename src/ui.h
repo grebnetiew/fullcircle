@@ -1,7 +1,7 @@
 #include <pebble.h>
 #include "appointment.h"
 
-#define SCREEN_BORDER 45
+#define SCREEN_BORDER 10
 #define RADIUS_HOURHAND 45
 #define RADIUS_MINUTEHAND 60
 #define LINE_THICKNESS 3
