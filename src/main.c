@@ -17,6 +17,8 @@ bool s_connected;
 
 // Update the watchface display
 static void update_display(Layer *layer, GContext *ctx) {
+  window_set_background_color(s_window, s_palette->background);
+  
   draw_fullcircle(ctx);
   draw_appointments(ctx);
   
