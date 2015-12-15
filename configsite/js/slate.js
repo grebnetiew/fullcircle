@@ -207,6 +207,10 @@ var Zepto=function(){function L(t){return null==t?String(t):j[S.call(t)]||"objec
         $color.on('click', function(ev) {
           $item.find('.color-box-wrap').toggleClass('show');
         });
+        
+        $color.bind('change', function() {
+          $valueDisplay.css('background-color', value.replace(/^0x/, '#'));
+        });
 
         $item.find('.color-box.selectable').on('click', function(ev) {
           ev.preventDefault();
