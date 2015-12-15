@@ -6,6 +6,7 @@ extern bool s_connected;
 
 Palette *s_palette;
 
+#ifdef PBL_COLOR
 GColor maybe_to_gray(GColor col) {
   if (s_connected) {
     return col;
@@ -14,6 +15,11 @@ GColor maybe_to_gray(GColor col) {
   uint8_t average = (col.r + col.g + col.b) / 3;
   return (GColor)(uint8_t)(0b11000000 + average + (average << 2) + (average << 4));
 }
+#else
+GColor maybe_to_gray(GColor col) {
+  return col; // There is no effective grayscale on Aplite
+}
+#endif
 
 void set_palette(uint32_t key, GColor col) {
   switch (key - 10) {
