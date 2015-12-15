@@ -12,13 +12,14 @@
                 "file": "images/menu.png",
                 "menuIcon": true,
                 "name": "MENU_LOGO",
-                "type": "png"
+                "type": "bitmap"
             }
         ]
     },
     "sdkVersion": "3",
     "shortName": "FullCircle",
     "targetPlatforms": [
+        "aplite",
         "basalt",
         "chalk"
     ],

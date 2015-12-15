@@ -16,15 +16,9 @@ inline GColor persist_read_gcolor(int32_t key) {
   return (GColor) (uint8_t) persist_read_int(key);
 }
 
-#ifdef PBL_COLOR
 inline status_t persist_write_gcolor(uint32_t key, GColor value) {
   return persist_write_int(key, value.argb);
 }
-#else
-inline status_t persist_write_gcolor(uint32_t key, GColor value) {
-  return persist_write_int(key, value == GColorWhite ? 1 : 0);
-}
-#endif // color
 
 void load_palette(Palette *p);
 void save_palette(Palette *p);
