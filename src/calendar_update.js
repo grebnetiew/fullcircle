@@ -32,19 +32,11 @@ function getfreebusy(calendar) {
   };
   
   //console.log("Asking for " + JSON.stringify(query));
-  
-  var req = new XMLHttpRequest();
-  req.open('POST', "https://www.googleapis.com/calendar/v3/freeBusy?key=" + apiKey, false);
-  req.setRequestHeader('Content-Type', 'application/json');
-  req.send(JSON.stringify(query));
-  
-  var response = JSON.parse(req.responseText);
-  
-  //console.log("Answer was " + req.responseText);
+  var response = OAuth2_authorizedRequest("https://www.googleapis.com/calendar/v3/freeBusy", query);
   
   if (Object.keys(response)[0] == "error" || !response.calendars[calendar]) {
     // An error occurred, or the calendar is simply empty.
-    console.log("Something might be wrong. The error was " + JSON.stringify(response.error.errors[0]));
+    console.log("Something might be wrong. The error was " + JSON.stringify(response.error));
     return false;
   }
   if (response.calendars[calendar].errors) {
@@ -125,6 +117,10 @@ Pebble.addEventListener('webviewclosed', function(e) {
   var config_data = JSON.parse(decodeURIComponent(e.response));
   console.log('Config window returned: ', JSON.stringify(config_data));
 
+  if (config_data["oauth2-refresh-token"]) {
+    oauth2_refresh_token = config_data["oauth2-refresh-token"];
+    localStorage.setItem(1, config_data["oauth2-refresh-token"]);
+  }
   localStorage.setItem(0, config_data.calendar);
   localStorage.setItem(11, config_data["color-hour"]);
   localStorage.setItem(12, config_data["color-minute"]);
