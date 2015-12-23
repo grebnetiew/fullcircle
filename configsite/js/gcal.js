@@ -46,36 +46,20 @@
        * once client library is loaded.
        */
       function loadCalendarApi() {
-        gapi.client.load('calendar', 'v3', listUpcomingEvents);
+        gapi.client.load('calendar', 'v3', listCalendarList);
       }
       /**
        * Print the summary and start datetime/date of the next ten events in
        * the authorized user's calendar. If no events are found an
        * appropriate message is printed.
        */
-      function listUpcomingEvents() {
-        var request = gapi.client.calendar.events.list({
-          'calendarId': 'primary',
-          'timeMin': (new Date()).toISOString(),
-          'showDeleted': false,
-          'singleEvents': true,
-          'maxResults': 10,
-          'orderBy': 'startTime'
-        });
+      function listCalendarList() {
+        var request = gapi.client.calendar.calendarList.list();
         request.execute(function(resp) {
-          var events = resp.items;
-          appendPre('Upcoming events:');
-          if (events.length > 0) {
-            for (i = 0; i < events.length; i++) {
-              var event = events[i];
-              var when = event.start.dateTime;
-              if (!when) {
-                when = event.start.date;
-              }
-              appendPre(event.summary + ' (' + when + ')')
-            }
-          } else {
-            appendPre('No upcoming events found.');
+          for (var i = 0; i < resp.items.length; i++) {
+            var calendarID = resp.items[i].id;
+            var calendarSummary = resp.items[i].summary;
+            appendOutput(calendarID, calendarSummary);
           }
         });
       }
@@ -85,8 +69,8 @@
        *
        * @param {string} message Text to be placed in pre element.
        */
-      function appendPre(message) {
+      function appendOutput(id, title) {
         var pre = document.getElementById('output');
-        var textContent = document.createTextNode(message + '\n');
+        var textContent = document.createTextNode(title + '\n');
         pre.appendChild(textContent);
       }
