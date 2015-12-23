@@ -63,11 +63,12 @@
           }
         });
       }
+      
+      var calendarCheckboxes = [];
+      
       /**
-       * Append a pre element to the body containing the given message
-       * as its text node.
-       *
-       * @param {string} message Text to be placed in pre element.
+       * Append a label element to the body containing the given calendar
+       * as its node.
        */
       function appendOutput(id, title) {
         var output = document.getElementById('output');
@@ -80,7 +81,8 @@
         var newInput = document.createElement('input');
         newInput.type = "checkbox";
         newInput.class = "item-checkbox";
-        newInput.name = "calendars['" + id + "']";
+        newInput.id = "calendar-" + id;
+        calendarCheckboxes.push(newInput.id);
         newLabel.appendChild(newInput);
         
         output.appendChild(newLabel);
