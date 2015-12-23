@@ -74,21 +74,26 @@
 	<body onload="currentValues()">
 		<h1 class='title'>FullCircle configuration</h1>
 
+		<div id="authorize-div" style="display: none">
 		<div class='item-container'>
-			<div class='item-container-header'>Your calendar</div>
+			<div class='item-container-header'>Google Calendar</div>
 			<div class="item-container-content">
 				<label class="item">
-					<div class="item-input-wrapper">
-					<input type="text" class="item-input" name="calendar" id="in-cal" placeholder="Calendar ID">
-					</div>
+				Calendar access
+				<input id="authorize-button" type="button" class="item-button item-input-button" 
+					onclick="handleAuthClick(event)" value="Authorize">
 				</label>
 			</div>
 			<div class='item-container-footer'>
-				<p>The Google Calendar ID to read appointments from.
-				Usually your Gmail address.
-				Don't forget to make its free/busy information public.</p>
-				<p>You can add multiple calendars by separating the IDs by commas.</p>
+				<p>We need read permission to your Google Calendar to be able to display
+				appointments on the watchface. Click the button above to tell Google we're okay.</p>
 			</div>
+		</div>
+		</div>
+		
+		<div class='item-container'>
+			<div class='item-container-header'>Choose calendars</div>
+			<div class="item-container-content" id="output" />
 		</div>
 		
 		<div class="item-container">
