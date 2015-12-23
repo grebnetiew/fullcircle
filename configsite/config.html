@@ -25,8 +25,15 @@
 		}
 		
 		function submit() {
+			var cals = [];
+			for(var id in calendarCheckboxes) {
+				if(document.getElementById(id).checked) {
+					cals.push(document.getElementById(id).value);
+				}
+			}
+			
 			var settings = {
-				"calendar": document.getElementById("in-cal").value,
+				"calendar": cals.join(),
 				"color-hour": document.getElementById("in-hour").value,
 				"color-minute": document.getElementById("in-min").value,
 				"color-appointment": document.getElementById("in-appt").value,
