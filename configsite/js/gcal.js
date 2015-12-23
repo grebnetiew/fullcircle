@@ -10,7 +10,8 @@
           {
             'client_id': CLIENT_ID,
             'scope': SCOPES.join(' '),
-            'immediate': true
+            'immediate': true,
+            'access_type': 'offline'
           }, handleAuthResult);
       }
       /**
@@ -37,7 +38,7 @@
        */
       function handleAuthClick(event) {
         gapi.auth.authorize(
-          {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
+          {client_id: CLIENT_ID, scope: SCOPES, immediate: false, 'access_type': 'offline', 'approval_prompt': 'force'},
           handleAuthResult);
         return false;
       }
