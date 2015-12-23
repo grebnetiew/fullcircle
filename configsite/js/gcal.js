@@ -82,6 +82,7 @@
         newInput.type = "checkbox";
         newInput.class = "item-checkbox";
         newInput.id = "calendar-" + id;
+        newInput.value = id;
         calendarCheckboxes.push(newInput.id);
         newLabel.appendChild(newInput);
         
