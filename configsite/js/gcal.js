@@ -70,7 +70,18 @@
        * @param {string} message Text to be placed in pre element.
        */
       function appendOutput(id, title) {
-        var pre = document.getElementById('output');
-        var textContent = document.createTextNode(title + '\n');
-        pre.appendChild(textContent);
+        var output = document.getElementById('output');
+        var newLabel = document.createElement('label');
+        newLabel.class = "item";
+        
+        var textContent = document.createTextNode(title);
+        newLabel.appendChild(textContent);
+        
+        var newInput = document.createElement('input');
+        newInput.type = "checkbox";
+        newInput.class = "item-checkbox";
+        newInput.name = "calendars['" + id + "']";
+        newLabel.appendChild(newInput);
+        
+        output.appendChild(newLabel);
       }
