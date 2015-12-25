@@ -28,7 +28,7 @@ function submit() {
 		"color-circle": document.getElementById("in-circle").value,
 		"color-background": document.getElementById("in-back").value,
 		"color-date": document.getElementById("in-date").value,
-		"oauth2-refresh-token": '',
+		"oauth2-refresh-token": refresh_token,
 	}
 	
 	// Set the return URL depending on the runtime environment
@@ -51,4 +51,5 @@ function currentValues() {
 	document.getElementById("in-circle").value = config["color-circle"].replace("0x","#");
 	document.getElementById("in-back").value = config["color-background"].replace("0x","#");
 	document.getElementById("in-date").value = config["color-date"].replace("0x","#");
+	refresh_token = config["oauth2-refresh-token"];
 }
