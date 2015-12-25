@@ -9,9 +9,17 @@ function gapiInitialize() {
 function handleAuthClick(event) {
 }
 
-// Checks if token is valid.
-// Return 0 for invalid, 1 for access token, 2 for refresh token
+// Checks if access token is valid.
+// Returns a boolean (true for valid).
 function gapiIsValidToken(token) {
+  var res = new XmlHttpRequest();
+  res.open('GET', 'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=' + token, 'false');
+  res.send();
+  if(res.responseType != 'json' || res.response.error) {
+    console.log("Checked a token and it was invalid, response was " + res.responseText);
+    return false;
+  }
+  return true;
 }
 
 // Shows the permission popup and returns a refresh token
