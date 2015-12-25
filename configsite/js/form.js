@@ -51,5 +51,5 @@ function currentValues() {
 	document.getElementById("in-circle").value = config["color-circle"].replace("0x","#");
 	document.getElementById("in-back").value = config["color-background"].replace("0x","#");
 	document.getElementById("in-date").value = config["color-date"].replace("0x","#");
-	have_refresh_token = config["oauth2-have-token"];
+	have_refresh_token = (config["oauth2-have-token"] && config["oauth2-have-token"] !== "false");
 }
