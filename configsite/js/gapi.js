@@ -19,6 +19,10 @@ function gapiIsValidToken(token) {
     console.log("Checked a token and it was invalid, response was " + res.responseText);
     return false;
   }
+  if(!res.response.audience || res.response.audience != CLIENT_ID) {
+    console.log("Checked a token and it had mismatched audience, response was " + res.responseText);
+    return false;
+  }
   return true;
 }
 
