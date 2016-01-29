@@ -55,7 +55,8 @@ void appsync_init() {
     TupletInteger(KEY_COL_MINUTE + 10,      hexFromGColor(s_palette->minutes)),
     TupletInteger(KEY_COL_APPOINTMENT + 10, hexFromGColor(s_palette->appointments)),
     TupletInteger(KEY_COL_CIRCLE + 10,      hexFromGColor(s_palette->circle)),
-    TupletInteger(KEY_COL_BACKGROUND + 10,  hexFromGColor(s_palette->background))
+    TupletInteger(KEY_COL_BACKGROUND + 10,  hexFromGColor(s_palette->background)),
+    TupletInteger(KEY_COL_DATE + 10,        hexFromGColor(s_palette->date))
   };
 
   // Begin using AppSync
