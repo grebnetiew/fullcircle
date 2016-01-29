@@ -1,4 +1,4 @@
-#include <pebble.h>
+ #include <pebble.h>
 #include "drawing.h"
 #include "storage.h"
 #include "palette.h"
@@ -75,7 +75,7 @@ void draw_appointments(GContext *ctx) {
 }
 
 void draw_date(const char *text) {
-  text_layer_set_text_color(s_date_text, maybe_to_gray(s_palette->appointments));
+  text_layer_set_text_color(s_date_text, maybe_to_gray(s_palette->date));
   text_layer_set_background_color(s_date_text, GColorClear);
   text_layer_set_text(s_date_text, text);
 }
