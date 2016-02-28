@@ -13,6 +13,7 @@ extern Palette *s_palette;
 static uint8_t s_hour;
 static uint8_t s_minute;
 static char s_date[8];
+GRect s_date_positions[3];
 bool s_connected;
 
 // Update the watchface display
@@ -22,7 +23,7 @@ static void update_display(Layer *layer, GContext *ctx) {
   draw_fullcircle(ctx);
   draw_appointments(ctx);
   
-  draw_date(s_date);
+  draw_date(s_date, s_hour % 12, s_minute);
   
   // Draw clock
   draw_minutes(ctx, s_minute);
@@ -53,6 +54,11 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_layer, update_display);
   
   GPoint center = grect_center_point(&s_screen);
+  // Make three possible locations for the date
+  s_date_positions[0] = GRect(center.x + 15, center.y - 9,  60, 18);
+  s_date_positions[1] = GRect(center.x - 30, center.y + 15, 60, 18);
+  s_date_positions[2] = GRect(center.x - 30, center.y - 33, 60, 18);
+  
   s_date_text = text_layer_create(GRect(center.x + 15, center.y - 9, 60, 18));
   layer_add_child(s_layer, text_layer_get_layer(s_date_text));
 }

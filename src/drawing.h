@@ -12,4 +12,4 @@ void draw_hours(GContext *ctx, uint8_t hours, uint8_t minutes);
 void draw_appointments(GContext *ctx);
 void draw_fullcircle(GContext *ctx);
 
-void draw_date(const char *text);
+void draw_date(const char *text, uint8_t hours, uint8_t minutes);

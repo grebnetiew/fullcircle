@@ -5,6 +5,7 @@
 
 extern GRect s_screen;
 extern TextLayer *s_date_text;
+extern GRect s_date_positions[3];
 extern Palette *s_palette;
 
 inline uint32_t angle_from_minutes(uint8_t min) {
@@ -74,8 +75,24 @@ void draw_appointments(GContext *ctx) {
   }
 }
 
-void draw_date(const char *text) {
+void draw_date(const char *text, uint8_t hours, uint8_t minutes) {
   text_layer_set_text_color(s_date_text, maybe_to_gray(s_palette->date));
   text_layer_set_background_color(s_date_text, GColorClear);
   text_layer_set_text(s_date_text, text);
+  
+  // Put the layer in a position not obscured by hands
+  if ((hours < 2 || hours >= 4) && (minutes < 10 || minutes >= 20)) {
+    // Standard place, to the right
+    layer_set_frame(text_layer_get_layer(s_date_text), s_date_positions[0]);
+    text_layer_set_text_alignment(s_date_text, GTextAlignmentLeft);
+  } else if ((hours < 4 || hours >= 9) && (minutes < 20 || minutes >= 45)) {
+    // Alternative, below the center
+    layer_set_frame(text_layer_get_layer(s_date_text), s_date_positions[1]);
+    text_layer_set_text_alignment(s_date_text, GTextAlignmentCenter);
+  } else {
+    // Alternative, above the center
+    layer_set_frame(text_layer_get_layer(s_date_text), s_date_positions[2]);
+    text_layer_set_text_alignment(s_date_text, GTextAlignmentCenter);
+  }
+  layer_mark_dirty(text_layer_get_layer(s_date_text));
 }
