@@ -23,12 +23,17 @@
 		}
 		
 		function submit() {
+			// Pie chart mode is encoded by having equal colors for appointment and circle
+			var circlecolor = document.getElementById("in-circle").value;
+			if (document.getElementById("in-piechart").value) {
+				circlecolor = document.getElementById("in-appt").value;
+			}
 			var settings = {
 				"calendar": document.getElementById("in-cal").value,
 				"color-hour": document.getElementById("in-hour").value,
 				"color-minute": document.getElementById("in-min").value,
 				"color-appointment": document.getElementById("in-appt").value,
-				"color-circle": document.getElementById("in-circle").value,
+				"color-circle": circlecolor,
 				"color-background": document.getElementById("in-back").value,
 				"color-date": document.getElementById("in-date").value,
 			}
@@ -114,6 +119,10 @@
 			<label class="item">
 			Date and weekday
 			<input type="text" class="item-color item-color-sunny" name="color-date" id="in-date" value="#FFFFFF">
+			</label>
+			<label class="item">
+			Pie charts fascinate me
+			<input type="checkbox" class="item-checkbox" name="toggle-piechart" id="in-piechart">
 			</label>
 			</div>
 		</div>
