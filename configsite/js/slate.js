@@ -216,10 +216,13 @@ var Zepto=function(){function L(t){return null==t?String(t):j[S.call(t)]||"objec
           ev.preventDefault();
 
           var value = $(this).data('value');
-          $color.val(value);
+          $color.val(value.replace(/^0x/, '#'));
           $color.trigger('change');
           $item.find('.color-box-wrap').removeClass('show');
         })
+        $color.bind('change', function() {
+  			  $valueDisplay.css('background-color', $color.val().replace(/^0x/, '#'));
+	      });
       });
     },
 
