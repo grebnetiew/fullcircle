@@ -25,7 +25,7 @@
 		function submit() {
 			// Pie chart mode is encoded by having equal colors for appointment and circle
 			var circlecolor = document.getElementById("in-circle").value;
-			if (document.getElementById("in-piechart").value) {
+			if (document.getElementById("in-piechart").checked) {
 				circlecolor = document.getElementById("in-appt").value;
 			}
 			var settings = {
