@@ -75,6 +75,24 @@ void draw_appointments(GContext *ctx) {
   }
 }
 
+void draw_piechart_appointments(GContext *ctx){
+  graphics_context_set_fill_color(ctx, maybe_to_gray(s_palette->appointments));
+  graphics_context_set_antialiased(ctx, true);
+  GRect canvas = (GRect){
+    .origin = GPoint(s_screen.origin.x - 50, s_screen.origin.y - 50),
+    .size   = GSize(s_screen.size.w + 100, s_screen.size.h + 100)
+  };
+  
+  for (int a = 0; a != 10; ++a) {
+    if (appointment_start(a) == appointment_end(a)) {
+      break;
+    }
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Going to draw appt pie from %d to %d", (int)appointment_start(a), (int)appointment_end(a));
+    graphics_fill_radial(ctx, canvas, GOvalScaleModeFillCircle, s_screen.size.w,
+                      to_angle(appointment_start(a)), to_angle(appointment_end(a)));
+  }
+}
+
 void draw_date(const char *text, uint8_t hours, uint8_t minutes) {
   text_layer_set_text_color(s_date_text, maybe_to_gray(s_palette->date));
   text_layer_set_background_color(s_date_text, GColorClear);

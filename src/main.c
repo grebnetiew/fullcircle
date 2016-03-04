@@ -20,8 +20,13 @@ bool s_connected;
 static void update_display(Layer *layer, GContext *ctx) {
   window_set_background_color(s_window, s_palette->background);
   
-  draw_fullcircle(ctx);
-  draw_appointments(ctx);
+  if (gcolor_equal(s_palette->circle, s_palette->appointments)) {
+    // A nonsense setting used to encode "draw me a pie chart"
+    draw_piechart_appointments(ctx);
+  } else {
+    draw_fullcircle(ctx);
+    draw_appointments(ctx);
+  }
   
   draw_date(s_date, s_hour % 12, s_minute);
   
