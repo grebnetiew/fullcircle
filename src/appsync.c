@@ -9,14 +9,9 @@
    Storage: 40 bytes + 7 hdr (47)
    Colors: 5 tuples, each 7 hdr and 4 data. (55)
 */
-#define DATA_LENGTH 40
+uint8_t DATA_LENGTH = 40;
 
-enum DataKeys {
-  CAL_VER_KEY = 0,
-  CAL_DATA_KEY = 1,
-};
-
-static AppSync s_sync;
+AppSync s_sync;
 static uint8_t s_sync_buffer[CAL_BUFFER_SIZE];
 
 extern Palette *s_palette;
@@ -43,14 +38,15 @@ void appsync_init() {
   app_message_open(2 * CAL_BUFFER_SIZE, 2 * CAL_BUFFER_SIZE);
 
   // Setup initial values
-  uint8_t zeros[DATA_LENGTH];
+  uint8_t initval[DATA_LENGTH];
   for (int i = 0; i != DATA_LENGTH; ++i) {
-    zeros[i] = 0;
+    initval[i] = 0;
   }
+  load_calendar(initval, DATA_LENGTH);
   
   Tuplet initial_values[] = {
     TupletInteger(CAL_VER_KEY, (int32_t) CAL_CURRENT_VER),
-    TupletBytes  (CAL_DATA_KEY, zeros, DATA_LENGTH),
+    TupletBytes  (CAL_DATA_KEY, initval, DATA_LENGTH),
     TupletInteger(KEY_COL_HOUR + 10,        hexFromGColor(s_palette->hours)),
     TupletInteger(KEY_COL_MINUTE + 10,      hexFromGColor(s_palette->minutes)),
     TupletInteger(KEY_COL_APPOINTMENT + 10, hexFromGColor(s_palette->appointments)),

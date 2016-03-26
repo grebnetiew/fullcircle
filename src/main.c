@@ -69,6 +69,7 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
+  save_calendar();
   save_palette(s_palette);
   free(s_palette);
   text_layer_destroy(s_date_text);

@@ -10,6 +10,7 @@ enum PersistKeys {
   KEY_COL_CIRCLE = 4,
   KEY_COL_BACKGROUND = 5,
   KEY_COL_DATE = 6,
+  KEY_CALENDAR = 7,
 };
 
 inline GColor persist_read_gcolor(int32_t key) {
@@ -22,3 +23,6 @@ inline status_t persist_write_gcolor(uint32_t key, GColor value) {
 
 void load_palette(Palette *p);
 void save_palette(Palette *p);
+
+void load_calendar(uint8_t* cal, uint8_t length);
+void save_calendar();

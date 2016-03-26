@@ -1,4 +1,5 @@
 #include "storage.h"
+#include "appsync.h"
 
 void load_palette(Palette *p) {
   *p = (Palette) {
@@ -18,4 +19,22 @@ void save_palette(Palette *p) {
   persist_write_gcolor(KEY_COL_BACKGROUND,  p->background);
   persist_write_gcolor(KEY_COL_CIRCLE,      p->circle);
   persist_write_gcolor(KEY_COL_DATE,        p->date);
+}
+
+void load_calendar(uint8_t* cal, uint8_t length) {
+  if (!persist_exists(KEY_CALENDAR))
+    return;
+  persist_read_data(KEY_CALENDAR, cal, length);
+  // Any update which results in higher length will have to
+  // be careful about read overflow...
+}
+
+extern AppSync s_sync;
+extern uint8_t DATA_LENGTH;
+
+void save_calendar() {
+  // Read calendar data from appsync cache
+  const Tuple *cal = app_sync_get(&s_sync, CAL_DATA_KEY);
+  // Write result
+  persist_write_data(KEY_CALENDAR, cal->value, DATA_LENGTH);
 }

@@ -1,7 +1,14 @@
+#pragma once
 #include <pebble.h>
 
 #define CALENDAR_LENGTH 10
+uint8_t DATA_LENGTH;
+  // for the appsync calendar blob
 
+enum DataKeys {
+  CAL_VER_KEY = 0,
+  CAL_DATA_KEY = 1,
+};
 
 inline uint32_t to_angle(uint32_t minutes) {
   return TRIG_MAX_ANGLE * minutes / (12 * 60);
