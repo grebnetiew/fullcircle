@@ -1,7 +1,7 @@
 #pragma once
 #include <pebble.h>
 
-typedef struct Palette {
+typedef struct str_palette {
   GColor appointments;
   GColor minutes;
   GColor hours;
@@ -10,6 +10,6 @@ typedef struct Palette {
   GColor date;
 } Palette;
 
-void set_palette(uint32_t key, GColor col);
+void set(Palette *p, uint32_t key, GColor col);
 
 GColor maybe_to_gray(GColor col);

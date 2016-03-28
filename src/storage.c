@@ -1,5 +1,5 @@
 #include "storage.h"
-#include "appsync.h"
+#include "globals.h"
 
 void load_palette(Palette *p) {
   *p = (Palette) {
@@ -32,9 +32,9 @@ void load_calendar(uint8_t* cal, uint8_t length) {
 extern AppSync s_sync;
 extern uint8_t DATA_LENGTH;
 
-void save_calendar() {
+void save_calendar(AppSync *appSync) {
   // Read calendar data from appsync cache
-  const Tuple *cal = app_sync_get(&s_sync, CAL_DATA_KEY);
+  const Tuple *cal = app_sync_get(appSync, CAL_DATA_KEY);
   // Write result
-  persist_write_data(KEY_CALENDAR, cal->value, DATA_LENGTH);
+  persist_write_data(KEY_CALENDAR, cal->value, CAL_DATA_LENGTH);
 }

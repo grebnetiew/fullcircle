@@ -1,17 +1,6 @@
 #pragma once
-
 #include <pebble.h>
 #include "palette.h"
-
-enum PersistKeys {
-  KEY_COL_HOUR = 1,
-  KEY_COL_MINUTE = 2,
-  KEY_COL_APPOINTMENT = 3,
-  KEY_COL_CIRCLE = 4,
-  KEY_COL_BACKGROUND = 5,
-  KEY_COL_DATE = 6,
-  KEY_CALENDAR = 7,
-};
 
 inline GColor persist_read_gcolor(int32_t key) {
   return (GColor) (uint8_t) persist_read_int(key);
