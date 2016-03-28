@@ -24,20 +24,6 @@ void update_display(Layer *layer, GContext *ctx) {
   draw_hours(ctx, appState.hour % 12, appState.minute);
 }
 
-inline uint32_t angle_from_minutes(uint8_t min) {
-  return TRIG_MAX_ANGLE * min / 60;
-}
-
-inline uint32_t angle_from_hours(uint32_t min) {
-  return TRIG_MAX_ANGLE * min / (12 * 60);
-}
-
-inline GPoint GpointFromPolar(GPoint center, uint32_t angle, uint8_t length) {
-  return GPoint(
-    center.x + length * sin_lookup(angle) / TRIG_MAX_RATIO,
-    center.y - length * cos_lookup(angle) / TRIG_MAX_RATIO);
-}
-
 void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
   // Calculate the endpoints of the lines
   GPoint center = grect_center_point(&appState.screen);
