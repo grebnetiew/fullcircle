@@ -1,6 +1,15 @@
 #pragma once
 
-enum PersistKeys {
+#define SCREEN_BORDER PBL_IF_RECT_ELSE(3,10)
+#define RADIUS_HOURHAND 45
+#define RADIUS_MINUTEHAND 60
+#define LINE_THICKNESS 3
+
+#define CAL_VER_KEY 0
+#define CAL_DATA_KEY 1
+#define CAL_DATA_LENGTH 40
+
+typedef enum PersistKeys {
   KEY_COL_HOUR = 1,
   KEY_COL_MINUTE = 2,
   KEY_COL_APPOINTMENT = 3,
@@ -8,10 +17,4 @@ enum PersistKeys {
   KEY_COL_BACKGROUND = 5,
   KEY_COL_DATE = 6,
   KEY_CALENDAR = 7,
-};
-
-enum DataKeys {
-  CAL_VER_KEY = 0,
-  CAL_DATA_KEY = 1,
-  CAL_DATA_LENGTH = 40,
-};
+} PersistKey;
