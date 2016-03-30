@@ -24,6 +24,12 @@ void update_display(Layer *layer, GContext *ctx) {
   draw_hours(ctx, appState.hour % 12, appState.minute);
 }
 
+static void set_stroke(GContext *ctx, GColor col, int thickness_delta) {
+  graphics_context_set_stroke_color(ctx, maybe_to_gray(col));
+  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + thickness_delta);
+  graphics_context_set_antialiased(ctx, true);
+}
+
 void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
   // Calculate the endpoints of the lines
   GPoint center = grect_center_point(&appState.screen);
@@ -37,35 +43,25 @@ void draw_hand(GContext *ctx, uint32_t angle, uint8_t length) {
 
 // Handle representation for minutes
 void draw_minutes(GContext *ctx, uint8_t minutes) {
-  graphics_context_set_stroke_color(ctx, maybe_to_gray(appData.palette.minutes));
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 1);
-  graphics_context_set_antialiased(ctx, true);
-  
+  set_stroke(ctx, appData.palette.minutes, 1);
   draw_hand(ctx, angle_from_minutes(minutes), RADIUS_MINUTEHAND);
 }
 
 // Handle representation for hours
 void draw_hours(GContext *ctx, uint8_t hours, uint8_t minutes) {
-  graphics_context_set_stroke_color(ctx, maybe_to_gray(appData.palette.hours));
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS);
-  graphics_context_set_antialiased(ctx, true);
+  set_stroke(ctx, appData.palette.hours, 0);
   draw_hand(ctx, angle_from_hours(hours * 60 + minutes), RADIUS_HOURHAND);
 }
 
 // Handle appointment circle
 void draw_fullcircle(GContext *ctx) {
-  graphics_context_set_stroke_color(ctx, maybe_to_gray(appData.palette.circle));
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 4);
-  graphics_context_set_antialiased(ctx, true);
-  
+  set_stroke(ctx, appData.palette.circle, 4);
   graphics_draw_arc(ctx, appState.screen, GOvalScaleModeFitCircle,
                     angle_from_hours(0), angle_from_hours(12 * 60));
 }
 
 void draw_appointments(GContext *ctx) {
-  graphics_context_set_stroke_color(ctx, maybe_to_gray(appData.palette.appointments));
-  graphics_context_set_stroke_width(ctx, LINE_THICKNESS + 2);
-  graphics_context_set_antialiased(ctx, true);
+  set_stroke(ctx, appData.palette.appointments, 2);
   
   for (int a = 0; a != 10; ++a) {
     if (appointment_start(&appData, a) == appointment_end(&appData, a)) {
