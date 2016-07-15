@@ -1,0 +1,36 @@
+{
+    "author": "Erik",
+    "dependencies": {},
+    "keywords": [],
+    "name": "fullcircle",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "FullCircle",
+        "enableMultiJS": false,
+        "messageKeys": {},
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/menu.png",
+                    "menuIcon": true,
+                    "name": "MENU_LOGO",
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "43537986-db67-4ab7-afa6-e3c32d9d0b15",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.6.0"
+}

@@ -3,15 +3,15 @@
   and push the results to the watch.
 */
 
-function zeros() {
+function fillArray(val) {
   var a = new Array(40);
   for(var i = 0; i != 40; ++i) {
-    a[i] = 0;
+    a[i] = val;
   }
   return a;
 }
 
-var appointments = zeros();
+var appointments = fillArray(-1);
 
 Pebble.addEventListener('ready', function(){
   setInterval(calendarUpdate, 900000);
@@ -70,7 +70,7 @@ function retrieveAppointments() {
     }
   }
   
-  var newAppointments = zeros();
+  var newAppointments = fillArray(0);
   for(i = 0; i != Math.min(10, freebusy.length); ++i) {
     newAppointments[4*i + 0] = (new Date(freebusy[i].start)).getHours();
     newAppointments[4*i + 1] = (new Date(freebusy[i].start)).getMinutes();
